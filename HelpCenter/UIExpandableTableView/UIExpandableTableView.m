@@ -103,6 +103,8 @@ static UITableViewRowAnimation UIExpandableTableViewReloadAnimation = UITableVie
 - (void)downloadDataInSection:(NSInteger)section {
     [self.downloadingSectionsDictionary setObject:[NSNumber numberWithBool:YES] forKey:[NSNumber numberWithInteger:section] ];
     [self.myDelegate tableView:self downloadDataForExpandableSection:section];
+
+    if (section==0) return;
     [self reloadRowsAtIndexPaths:[NSArray arrayWithObject:[NSIndexPath indexPathForRow:0 inSection:section] ] 
                 withRowAnimation:UITableViewRowAnimationNone];
 }
@@ -190,7 +192,8 @@ static UITableViewRowAnimation UIExpandableTableViewReloadAnimation = UITableVie
     
     [self.animatingSectionsDictionary removeObjectForKey:[NSNumber numberWithInt:section]];
     
-    [self scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:section] 
+    if (section==0) return;
+    [self scrollToRowAtIndexPath:[NSIndexPath indexPathForRow:0 inSection:section]
                 atScrollPosition:UITableViewScrollPositionTop 
                         animated:animated];
     

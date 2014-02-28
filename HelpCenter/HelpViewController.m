@@ -155,8 +155,13 @@
 
 - (BOOL)tableView:(UIExpandableTableView *)tableView needsToDownloadDataForExpandableSection:(NSInteger)section {
     // return YES, if you need to download data to expand this section. tableView will call tableView:downloadDataForExpandableSection: for this section
+    NSString *isopen ;
+    if (_expandArray.count == 0){
+        isopen = @"false";
+    } else {
+        isopen = _expandArray[section];    
+    }
     
-    NSString *isopen = _expandArray[section];
     return [isopen isEqualToString:@"false"];
 }
 
@@ -192,7 +197,11 @@
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section {
     NSString *isopen = _expandArray[section];
-    if([isopen isEqualToString:@"true"]){        
+    if([isopen isEqualToString:@"true"]){
+        if (_dataArray.count == 0){
+            return 1;
+        }
+
         NSDictionary *dictionary = _dataArray[section];
         return ((NSArray*)dictionary[@"helps"]).count + 1;
     }
